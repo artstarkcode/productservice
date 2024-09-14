@@ -1,12 +1,14 @@
 package com.arjun.productservice.services;
 
 import com.arjun.productservice.dtos.FakeStoreCreateProductRequestDto;
-import com.arjun.productservice.dtos.FakeStoreCreateProductResponseDto;
+import com.arjun.productservice.dtos.FakeStoreGetProductResponseDto;
 import com.arjun.productservice.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service("fakeStoreProductService")
 public class ProduceServiceFakestoreImpl implements ProductService{
@@ -22,29 +24,26 @@ public class ProduceServiceFakestoreImpl implements ProductService{
         request.setDescription(product.getDescription());
         request.setImage(product.getImageUrl());
         request.setPrice(product.getPrice());
-        FakeStoreCreateProductResponseDto response = restTemplate.postForObject(
+        FakeStoreGetProductResponseDto response = restTemplate.postForObject(
                 "https://fakestoreapi.com/products",
                 request,
-                FakeStoreCreateProductResponseDto.class
+                FakeStoreGetProductResponseDto.class
         );
-        Product product1 = new Product();
-        product1.setId(response.getId());
-        product1.setImageUrl(response.getImage());
-        product1.setDescription(response.getDescription());
-        product1.setCategoryName(response.getCategory());
-        product1.setPrice(response.getPrice());
-        product1.setTitle(response.getTitle());
-        return product1;
+        return response.toProduct();
     }
 
     @Override
     public List<Product> getAllProducts() {
-        /*
-        List<FakeStoreCreateProductResponseDto> responseList = restTemplate.getForObject(
-                "https://fakestoreapi.com/products",
-                List<FakeStoreCreateProductResponseDto.class>);
-
-         */
-        return List.of();
+        FakeStoreGetProductResponseDto[] response = restTemplate.getForObject(
+             "https://fakestoreapi.com/products",
+                FakeStoreGetProductResponseDto[].class
+        );
+        List<FakeStoreGetProductResponseDto> responseDtoList =
+                Stream.of(response).toList();
+        List<Product> products = new ArrayList<>();
+        for (FakeStoreGetProductResponseDto responseDto : responseDtoList){
+            products.add(responseDto.toProduct());
+        }
+        return products;
     }
 }

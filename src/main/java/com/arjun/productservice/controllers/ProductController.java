@@ -2,10 +2,15 @@ package com.arjun.productservice.controllers;
 
 import com.arjun.productservice.dtos.CreateProductRequestDto;
 import com.arjun.productservice.dtos.CreateProductResponseDto;
+import com.arjun.productservice.dtos.GetAllProductsResponseDto;
+import com.arjun.productservice.dtos.GetProductDto;
 import com.arjun.productservice.models.Product;
 import com.arjun.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -25,16 +30,15 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public void getAllProducts(){
-        /*
-        List<Product> productList = productService.getAllProducts();
-        GetAllProductsResponseDto response =  new GetAllProductsResponseDto();
+    public GetAllProductsResponseDto getAllProducts(){
+        List<Product> products = productService.getAllProducts();
+        GetAllProductsResponseDto response = new GetAllProductsResponseDto();
         List<GetProductDto> getProductResponseDtos = new ArrayList<>();
-        for (Product product : productList){
+        for (Product product : products){
             getProductResponseDtos.add(GetProductDto.fromProduct(product));
         }
         response.setProducts(getProductResponseDtos);
-        return null;*/
+        return response;
     }
     @GetMapping("/{id}")
     public void getProductById(@PathVariable("id") Long id){
