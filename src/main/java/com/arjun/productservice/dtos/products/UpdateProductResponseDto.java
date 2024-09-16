@@ -1,4 +1,4 @@
-package com.arjun.productservice.dtos;
+package com.arjun.productservice.dtos.products;
 
 import lombok.Getter;
 import lombok.Setter;

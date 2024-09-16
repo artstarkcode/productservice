@@ -1,4 +1,4 @@
-package com.arjun.productservice.dtos;
+package com.arjun.productservice.dtos.fakestore;
 
 import com.arjun.productservice.models.Product;
 import lombok.Getter;

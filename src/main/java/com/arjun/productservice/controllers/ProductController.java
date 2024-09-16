@@ -1,9 +1,7 @@
 package com.arjun.productservice.controllers;
 
-import com.arjun.productservice.dtos.CreateProductRequestDto;
-import com.arjun.productservice.dtos.CreateProductResponseDto;
-import com.arjun.productservice.dtos.GetAllProductsResponseDto;
-import com.arjun.productservice.dtos.GetProductDto;
+import com.arjun.productservice.dtos.ErrorResponseDto;
+import com.arjun.productservice.dtos.products.*;
 import com.arjun.productservice.models.Product;
 import com.arjun.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,11 +43,28 @@ public class ProductController {
 
     }
 
-    public void uppdateProduct(){
-
+    @PatchMapping("/{id}")
+    public PatchProductResponseDto updateProduct(@PathVariable("id") Long productId,
+                                                 @RequestBody CreateProductDto productDto){
+        Product product = productService.partialUpdateProduct(productId, productDto.toProduct());
+        PatchProductResponseDto response = new PatchProductResponseDto();
+        response.setProduct(GetProductDto.fromProduct(product));
+        return response;
     }
     public void replaceProduct(){
 
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorResponseDto handleRunTimeException(){
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+        errorResponseDto.setMessage("Something went wrong");
+        errorResponseDto.setStatus("RUNTIME ERROR");
+        return errorResponseDto;
+    }
+    @ExceptionHandler(Exception.class)
+    public String handlException(){
+        return "something went wrong";
     }
     /*
     @RequestMapping(name = "ARJUN", value = "")

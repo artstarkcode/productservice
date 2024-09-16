@@ -1,8 +1,11 @@
 package com.arjun.productservice.services;
 
-import com.arjun.productservice.dtos.FakeStoreCreateProductRequestDto;
-import com.arjun.productservice.dtos.FakeStoreGetProductResponseDto;
+import com.arjun.productservice.dtos.fakestore.FakeStoreCreateProductRequestDto;
+import com.arjun.productservice.dtos.fakestore.FakeStoreGetProductResponseDto;
 import com.arjun.productservice.models.Product;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,5 +48,26 @@ public class ProduceServiceFakestoreImpl implements ProductService{
             products.add(responseDto.toProduct());
         }
         return products;
+    }
+
+    @Override
+    public Product partialUpdateProduct(Long productId, Product product) {
+//        FakeStoreGetProductResponseDto productResponseDto = restTemplate.exchange(
+//                "https://fakestoreapi.com/products/" + productId,
+//                HttpMethod.PATCH,
+//                FakeStoreCreateProductRequestDto.fromProduct(product),
+//                FakeStoreGetProductResponseDto.class
+//        );
+
+        HttpEntity<FakeStoreCreateProductRequestDto> requestEntity = new HttpEntity<>(FakeStoreCreateProductRequestDto.fromProduct(product));
+        ResponseEntity<FakeStoreGetProductResponseDto> responseEntity = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + productId,
+                HttpMethod.PATCH,
+                requestEntity,
+                FakeStoreGetProductResponseDto.class
+        );
+
+
+        return responseEntity.getBody().toProduct();
     }
 }
