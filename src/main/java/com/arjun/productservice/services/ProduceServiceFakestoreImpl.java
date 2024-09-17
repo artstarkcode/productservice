@@ -70,4 +70,13 @@ public class ProduceServiceFakestoreImpl implements ProductService{
 
         return responseEntity.getBody().toProduct();
     }
+
+    @Override
+    public Product getProductById(Long id) {
+        FakeStoreGetProductResponseDto response = restTemplate.getForObject(
+                "https://fakestoreapi.com/products/" + id,
+                FakeStoreGetProductResponseDto.class
+        );
+        return response.toProduct();
+    }
 }

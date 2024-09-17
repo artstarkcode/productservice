@@ -21,4 +21,9 @@ public class ProductServiceDBImpl implements ProductService{
     public Product partialUpdateProduct(Long productId, Product product) {
         return null;
     }
+
+    @Override
+    public Product getProductById(Long id) {
+        return null;
+    }
 }

@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class GetProductResponseDto {
-    private GetProductResponseDto product;
+    private GetProductDto product;
 }
