@@ -1,5 +1,6 @@
 package com.arjun.productservice.dtos.fakestore;
 
+import com.arjun.productservice.models.Category;
 import com.arjun.productservice.models.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,9 @@ public class FakeStoreGetProductResponseDto {
         product.setTitle(this.title);
         product.setPrice(this.price);
         product.setImageUrl(this.image);
-        product.setCategoryName(this.category);
+        Category category1 = new Category();
+        category1.setName(this.category);
+        product.setCategory(category1);
         return product;
     }
 }

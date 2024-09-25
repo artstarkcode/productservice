@@ -19,7 +19,7 @@ public class FakeStoreCreateProductRequestDto {
         requestDto.setTitle(product.getTitle());
         requestDto.setPrice(product.getPrice());
         requestDto.setImage(product.getImageUrl());
-        requestDto.setCategory(product.getCategoryName());
+        requestDto.setCategory(product.getCategory().getName());
         return requestDto;
     }
 }

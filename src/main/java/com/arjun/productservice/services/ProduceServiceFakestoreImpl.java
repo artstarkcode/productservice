@@ -22,7 +22,7 @@ public class ProduceServiceFakestoreImpl implements ProductService{
     @Override
     public Product createProduct(Product product) {
         FakeStoreCreateProductRequestDto request = new FakeStoreCreateProductRequestDto();
-        request.setCategory(product.getCategoryName());
+        request.setCategory(product.getCategory().getName());
         request.setTitle(product.getTitle());
         request.setDescription(product.getDescription());
         request.setImage(product.getImageUrl());

@@ -1,7 +1,7 @@
 package com.arjun.productservice.controllers;
 
-import com.arjun.productservice.dtos.ErrorResponseDto;
 import com.arjun.productservice.dtos.products.*;
+import com.arjun.productservice.exceptions.ProductNotFoundException;
 import com.arjun.productservice.models.Product;
 import com.arjun.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
     private ProductService productService;
 
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+    public ProductController(@Qualifier("dbProductService") ProductService productService){
         this.productService = productService;
     }
     @PostMapping("")
@@ -47,16 +47,17 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     public PatchProductResponseDto updateProduct(@PathVariable("id") Long productId,
-                                                 @RequestBody CreateProductDto productDto){
+                                                 @RequestBody CreateProductDto productDto) throws ProductNotFoundException {
         Product product = productService.partialUpdateProduct(productId, productDto.toProduct());
         PatchProductResponseDto response = new PatchProductResponseDto();
         response.setProduct(GetProductDto.fromProduct(product));
         return response;
     }
+    @PutMapping("/{id}")
     public void replaceProduct(){
 
     }
-
+    /*
     @ExceptionHandler(RuntimeException.class)
     public ErrorResponseDto handleRunTimeException(){
         ErrorResponseDto errorResponseDto = new ErrorResponseDto();

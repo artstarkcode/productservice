@@ -1,5 +1,6 @@
 package com.arjun.productservice.dtos.products;
 
+import com.arjun.productservice.models.Category;
 import com.arjun.productservice.models.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,9 @@ public class CreateProductRequestDto {
         Product product = new Product();
         product.setTitle(this.getTitle());
         product.setPrice(this.getPrice());
-        product.setCategoryName(this.getCategoryName());
+        Category category = new Category();
+        category.setName(this.getCategoryName());
+        product.setCategory(category);
         product.setDescription(this.getDescription());
         product.setImageUrl(this.getImageUrl());
         return product;
