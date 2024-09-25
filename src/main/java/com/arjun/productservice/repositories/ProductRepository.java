@@ -16,7 +16,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product save(Product product);
 
     @Override
-    void delete(Product entity);
+    void deleteById(Long id);
+    @Override
+    boolean existsById(Long id);
     @Override
     List<Product> findAll();
     @Override

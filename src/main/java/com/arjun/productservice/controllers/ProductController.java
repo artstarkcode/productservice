@@ -39,7 +39,7 @@ public class ProductController {
         return response;
     }
     @GetMapping("/{id}")
-    public GetProductDto getProductById(@PathVariable("id") Long id){
+    public GetProductDto getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
         Product product = productService.getProductById(id);
         GetProductDto getProductDto = GetProductDto.fromProduct(product);
         return getProductDto;
@@ -55,6 +55,11 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public void replaceProduct(){
+
+    }
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        productService.deleteProduct(id);
 
     }
     /*

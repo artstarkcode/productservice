@@ -36,7 +36,7 @@ public class ProductServiceDBImpl implements ProductService{
     public Product partialUpdateProduct(Long productId, Product product) throws ProductNotFoundException {
         Optional<Product> productToUpdateOptional = productRepository.findById(productId);
         if (productToUpdateOptional.isEmpty()){
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(productId);
         }
         Product productToUpdate = productToUpdateOptional.get();
         if (product.getDescription() != null){
@@ -78,8 +78,15 @@ public class ProductServiceDBImpl implements ProductService{
 
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()){
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(id);
         }
         return productOptional.get();
+    }
+    public void deleteProduct(Long id) throws ProductNotFoundException {
+        boolean ifProductExists = productRepository.existsById(id);
+        if (!ifProductExists){
+            throw new ProductNotFoundException(id);
+        }
+        productRepository.deleteById(id);
     }
 }
