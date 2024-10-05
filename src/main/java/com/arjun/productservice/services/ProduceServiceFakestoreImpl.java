@@ -82,4 +82,19 @@ public class ProduceServiceFakestoreImpl implements ProductService{
     public void deleteProduct(Long id){
         restTemplate.delete("https://fakestoreapi.com/products/" + id);
     }
+    public Product replaceProduct(Long id, Product product){
+        FakeStoreCreateProductRequestDto request = new FakeStoreCreateProductRequestDto();
+        request.setCategory(product.getCategory().getName());
+        request.setTitle(product.getTitle());
+        request.setDescription(product.getDescription());
+        request.setImage(product.getImageUrl());
+        request.setPrice(product.getPrice());
+        FakeStoreGetProductResponseDto response = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + id,
+                HttpMethod.PUT,
+                new HttpEntity<>(request),
+                FakeStoreGetProductResponseDto.class
+        ).getBody();
+        return response.toProduct();
+    }
 }

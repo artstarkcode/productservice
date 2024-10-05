@@ -89,4 +89,17 @@ public class ProductServiceDBImpl implements ProductService{
         }
         productRepository.deleteById(id);
     }
+    public Product replaceProduct(Long id, Product product) throws ProductNotFoundException {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isEmpty()){
+            throw new ProductNotFoundException(id);
+        }
+        Product productToReplace = productOptional.get();
+        productToReplace.setCategory(product.getCategory());
+        productToReplace.setDescription(product.getDescription());
+        productToReplace.setImageUrl(product.getImageUrl());
+        productToReplace.setPrice(product.getPrice());
+        productToReplace.setTitle(product.getTitle());
+        return productRepository.save(productToReplace);
+    }
 }

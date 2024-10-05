@@ -11,4 +11,5 @@ public interface ProductService {
     Product partialUpdateProduct(Long productId, Product product) throws ProductNotFoundException;
     Product getProductById(Long id) throws ProductNotFoundException;
     void deleteProduct(Long id) throws ProductNotFoundException;
+    Product replaceProduct(Long id, Product product) throws ProductNotFoundException;
 }
